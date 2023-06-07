@@ -33,7 +33,7 @@ C# kodları yazılmıştır.
 
 Giriş Ekranı
 
-![giriş ekranı](http://r.resimlink.com/Tf_cguKxkdU.png)
+![giriş ekranı](https://r.resimlink.com/VeYGIo0.png)
 
 
 Ana Sayfa
