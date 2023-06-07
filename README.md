@@ -16,8 +16,10 @@ Bu zorlu tespitler, demirbaş takibi yapan departman çalışanlarından soru-ce
 ile projeye tam olarak nasıl başlanılacağına karar verilmiştir. Bu veriler tespit edilen problemler tablosuna işlenmiştir.
 Karşılaşılan sorunlar, bu tablo sayesinde net ifadeler halinde görülmektedir. Fonksiyonel gereksinimlerde ise adım adım
 geliştirmeler ve iyileştirilmeler yapılmıştır. Ardından tablolar ve çizilen modellerin iş süreç mühendisliği kapsamında
-akış modelleri tasarlanmıştır. Ardından SQL Server uygulaması ile,bu tasarlanan sistemin veritabanı tasarlanmış olup tablo ilişkilendirilmeleri yapılmıştır. Bu ilişkiler, demirbaş türü tablosundaki isimlerini demirbaş sayfasına combobox şeklinde
-çekebilme gibi imkanlar sağlamıştır. Ayrıca oluşturulan stored procedure sayesinde datagridview üzerinde birden fazla tablo verisi gösterime olanak sağlamıştır. Veritabanı tasarımı tamamlandıktan sonra basit bir windows form arayüzü tasarlanıp gerekli
+akış modelleri tasarlanmıştır. Ardından SQL Server uygulaması ile,bu tasarlanan sistemin veritabanı tasarlanmış olup tablo
+ilişkilendirilmeleri yapılmıştır. Bu ilişkiler, demirbaş türü tablosundaki isimlerini demirbaş sayfasına combobox şeklinde
+çekebilme gibi imkanlar sağlamıştır. Ayrıca oluşturulan stored procedure sayesinde datagridview üzerinde birden fazla tablo
+verisi gösterime olanak sağlamıştır. Veritabanı tasarımı tamamlandıktan sonra basit bir windows form arayüzü tasarlanıp gerekli
 C# kodları yazılmıştır.
 ```
 
