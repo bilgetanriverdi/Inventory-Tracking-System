@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c3ac1eb8ba93403097f602378ba19885" Name="Diagram1">
+        <EntityTypeShape EntityType="DemirbasDbModel.Branches" Width="1.5" PointX="1.5" PointY="7.375" />
+        <EntityTypeShape EntityType="DemirbasDbModel.Documents" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="DemirbasDbModel.Inventories" Width="1.5" PointX="6" PointY="3.75" />
+        <EntityTypeShape EntityType="DemirbasDbModel.InventoriesTypes" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="DemirbasDbModel.Personnels" Width="1.5" PointX="3.75" PointY="7.125" />
+        <EntityTypeShape EntityType="DemirbasDbModel.Rooms" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DemirbasDbModel.Users" Width="1.5" PointX="5.75" PointY="7.875" />
+        <AssociationConnector Association="DemirbasDbModel.FK_Personnels_BranchId" />
+        <AssociationConnector Association="DemirbasDbModel.FK_Documents_InventoriesTypeId" />
+        <AssociationConnector Association="DemirbasDbModel.FK_Inventories_InventoriesTypeId" />
+        <AssociationConnector Association="DemirbasDbModel.FK_Inventories_PersonnelId" />
+        <AssociationConnector Association="DemirbasDbModel.FK_Inventories_RoomId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

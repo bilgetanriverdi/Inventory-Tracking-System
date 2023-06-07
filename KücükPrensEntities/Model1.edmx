@@ -1,0 +1,520 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DemirbasDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InventoriesTypeId" Type="int" />
+          <Property Name="DocumentsDate" Type="datetime" />
+          <Property Name="DocumentPrice" Type="int" Nullable="false" />
+          <Property Name="DocumentCompany" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inventories">
+          <Key>
+            <PropertyRef Name="InventoryId" />
+          </Key>
+          <Property Name="InventoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InventoriesTypeId" Type="int" />
+          <Property Name="InventoryBarkod" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoomId" Type="int" />
+          <Property Name="PersonnelId" Type="int" />
+        </EntityType>
+        <EntityType Name="InventoriesTypes">
+          <Key>
+            <PropertyRef Name="InventoriesTypeId" />
+          </Key>
+          <Property Name="InventoriesTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InventoriesTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personnels">
+          <Key>
+            <PropertyRef Name="PersonnelId" />
+          </Key>
+          <Property Name="PersonnelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonnelFirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonnelLastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchId" Type="int" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="RoomId" />
+          </Key>
+          <Property Name="RoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Documents_InventoriesTypeId">
+          <End Role="InventoriesTypes" Type="Self.InventoriesTypes" Multiplicity="0..1" />
+          <End Role="Documents" Type="Self.Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoriesTypes">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_InventoriesTypeId">
+          <End Role="InventoriesTypes" Type="Self.InventoriesTypes" Multiplicity="0..1" />
+          <End Role="Inventories" Type="Self.Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoriesTypes">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_PersonnelId">
+          <End Role="Personnels" Type="Self.Personnels" Multiplicity="0..1" />
+          <End Role="Inventories" Type="Self.Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnels">
+              <PropertyRef Name="PersonnelId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="PersonnelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_RoomId">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Inventories" Type="Self.Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personnels_BranchId">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="0..1" />
+          <End Role="Personnels" Type="Self.Personnels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Personnels">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="PersonnelWithBranches" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GetDocument" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GetDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GetInventroies" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_PersonnelsWithBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DemirbasDbModelStoreContainer">
+          <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventories" EntityType="Self.Inventories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoriesTypes" EntityType="Self.InventoriesTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personnels" EntityType="Self.Personnels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Documents_InventoriesTypeId" Association="Self.FK_Documents_InventoriesTypeId">
+            <End Role="InventoriesTypes" EntitySet="InventoriesTypes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_InventoriesTypeId" Association="Self.FK_Inventories_InventoriesTypeId">
+            <End Role="InventoriesTypes" EntitySet="InventoriesTypes" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_PersonnelId" Association="Self.FK_Inventories_PersonnelId">
+            <End Role="Personnels" EntitySet="Personnels" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_RoomId" Association="Self.FK_Inventories_RoomId">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personnels_BranchId" Association="Self.FK_Personnels_BranchId">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Personnels" EntitySet="Personnels" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemirbasDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DemirbasDbEntities1" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="PersonnelWithBranches" ReturnType="Collection(DemirbasDbModel.PersonnelWithBranches_Result)" />
+          <FunctionImport Name="SP_GetDocuments" ReturnType="Collection(DemirbasDbModel.SP_GetDocuments_Result)" />
+          <FunctionImport Name="SP_GetInventroies" ReturnType="Collection(DemirbasDbModel.SP_GetInventroies_Result)" />
+          <FunctionImport Name="SP_PersonnelsWithBranch" ReturnType="Collection(DemirbasDbModel.SP_PersonnelsWithBranch_Result)" />
+          <FunctionImport Name="SP_GetDocument" ReturnType="Collection(DemirbasDbModel.SP_GetDocument_Result)" />
+          <EntitySet Name="Branches" EntityType="DemirbasDbModel.Branches" />
+          <EntitySet Name="Documents" EntityType="DemirbasDbModel.Documents" />
+          <EntitySet Name="Inventories" EntityType="DemirbasDbModel.Inventories" />
+          <EntitySet Name="InventoriesTypes" EntityType="DemirbasDbModel.InventoriesTypes" />
+          <EntitySet Name="Personnels" EntityType="DemirbasDbModel.Personnels" />
+          <EntitySet Name="Rooms" EntityType="DemirbasDbModel.Rooms" />
+          <EntitySet Name="Users" EntityType="DemirbasDbModel.Users" />
+          <AssociationSet Name="FK_Personnels_BranchId" Association="DemirbasDbModel.FK_Personnels_BranchId">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Personnels" EntitySet="Personnels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_InventoriesTypeId" Association="DemirbasDbModel.FK_Documents_InventoriesTypeId">
+            <End Role="InventoriesTypes" EntitySet="InventoriesTypes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_InventoriesTypeId" Association="DemirbasDbModel.FK_Inventories_InventoriesTypeId">
+            <End Role="InventoriesTypes" EntitySet="InventoriesTypes" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_PersonnelId" Association="DemirbasDbModel.FK_Inventories_PersonnelId">
+            <End Role="Personnels" EntitySet="Personnels" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventories_RoomId" Association="DemirbasDbModel.FK_Inventories_RoomId">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Inventories" EntitySet="Inventories" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="PersonnelWithBranches_Result">
+          <Property Type="Int32" Name="PersonnelId" Nullable="false" />
+          <Property Type="String" Name="PersonnelFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PersonnelLastName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BranchId" Nullable="true" />
+          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_GetDocuments_Result">
+          <Property Type="Int32" Name="InventoryId" Nullable="false" />
+          <Property Type="Int32" Name="InventoriesTypeId" Nullable="true" />
+          <Property Type="String" Name="InventoryBarkod" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="RoomId" Nullable="true" />
+          <Property Type="Int32" Name="PersonnelId" Nullable="true" />
+          <Property Type="String" Name="InventoriesTypeName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_GetInventroies_Result">
+          <Property Type="Int32" Name="InventoryId" Nullable="false" />
+          <Property Type="Int32" Name="InventoriesTypeId" Nullable="true" />
+          <Property Type="String" Name="InventoryBarkod" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="RoomId" Nullable="true" />
+          <Property Type="Int32" Name="PersonnelId" Nullable="true" />
+          <Property Type="String" Name="InventoriesTypeName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="RoomName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PersonnelFirstName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_PersonnelsWithBranch_Result">
+          <Property Type="Int32" Name="PersonnelId" Nullable="false" />
+          <Property Type="String" Name="PersonnelFirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PersonnelLastName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="BranchId" Nullable="true" />
+          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_GetDocument_Result">
+          <Property Type="Int32" Name="DocumentId" Nullable="false" />
+          <Property Type="Int32" Name="InventoriesTypeId" Nullable="true" />
+          <Property Type="DateTime" Name="DocumentsDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="DocumentPrice" Nullable="false" />
+          <Property Type="String" Name="DocumentCompany" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InventoriesTypeName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Personnels" Relationship="DemirbasDbModel.FK_Personnels_BranchId" FromRole="Branches" ToRole="Personnels" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InventoriesTypeId" Type="Int32" />
+          <Property Name="DocumentsDate" Type="DateTime" Precision="3" />
+          <Property Name="DocumentPrice" Type="Int32" Nullable="false" />
+          <Property Name="DocumentCompany" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="InventoriesTypes" Relationship="DemirbasDbModel.FK_Documents_InventoriesTypeId" FromRole="Documents" ToRole="InventoriesTypes" />
+        </EntityType>
+        <EntityType Name="Inventories">
+          <Key>
+            <PropertyRef Name="InventoryId" />
+          </Key>
+          <Property Name="InventoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InventoriesTypeId" Type="Int32" />
+          <Property Name="InventoryBarkod" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RoomId" Type="Int32" />
+          <Property Name="PersonnelId" Type="Int32" />
+          <NavigationProperty Name="InventoriesTypes" Relationship="DemirbasDbModel.FK_Inventories_InventoriesTypeId" FromRole="Inventories" ToRole="InventoriesTypes" />
+          <NavigationProperty Name="Personnels" Relationship="DemirbasDbModel.FK_Inventories_PersonnelId" FromRole="Inventories" ToRole="Personnels" />
+          <NavigationProperty Name="Rooms" Relationship="DemirbasDbModel.FK_Inventories_RoomId" FromRole="Inventories" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="InventoriesTypes">
+          <Key>
+            <PropertyRef Name="InventoriesTypeId" />
+          </Key>
+          <Property Name="InventoriesTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InventoriesTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Documents" Relationship="DemirbasDbModel.FK_Documents_InventoriesTypeId" FromRole="InventoriesTypes" ToRole="Documents" />
+          <NavigationProperty Name="Inventories" Relationship="DemirbasDbModel.FK_Inventories_InventoriesTypeId" FromRole="InventoriesTypes" ToRole="Inventories" />
+        </EntityType>
+        <EntityType Name="Personnels">
+          <Key>
+            <PropertyRef Name="PersonnelId" />
+          </Key>
+          <Property Name="PersonnelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonnelFirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PersonnelLastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchId" Type="Int32" />
+          <NavigationProperty Name="Branches" Relationship="DemirbasDbModel.FK_Personnels_BranchId" FromRole="Personnels" ToRole="Branches" />
+          <NavigationProperty Name="Inventories" Relationship="DemirbasDbModel.FK_Inventories_PersonnelId" FromRole="Personnels" ToRole="Inventories" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="RoomId" />
+          </Key>
+          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inventories" Relationship="DemirbasDbModel.FK_Inventories_RoomId" FromRole="Rooms" ToRole="Inventories" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Personnels_BranchId">
+          <End Type="DemirbasDbModel.Branches" Role="Branches" Multiplicity="0..1" />
+          <End Type="DemirbasDbModel.Personnels" Role="Personnels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Personnels">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_InventoriesTypeId">
+          <End Type="DemirbasDbModel.InventoriesTypes" Role="InventoriesTypes" Multiplicity="0..1" />
+          <End Type="DemirbasDbModel.Documents" Role="Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoriesTypes">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_InventoriesTypeId">
+          <End Type="DemirbasDbModel.InventoriesTypes" Role="InventoriesTypes" Multiplicity="0..1" />
+          <End Type="DemirbasDbModel.Inventories" Role="Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoriesTypes">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="InventoriesTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_PersonnelId">
+          <End Type="DemirbasDbModel.Personnels" Role="Personnels" Multiplicity="0..1" />
+          <End Type="DemirbasDbModel.Inventories" Role="Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personnels">
+              <PropertyRef Name="PersonnelId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="PersonnelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventories_RoomId">
+          <End Type="DemirbasDbModel.Rooms" Role="Rooms" Multiplicity="0..1" />
+          <End Type="DemirbasDbModel.Inventories" Role="Inventories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomId" />
+            </Principal>
+            <Dependent Role="Inventories">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemirbasDbModelStoreContainer" CdmEntityContainer="DemirbasDbEntities1">
+          <FunctionImportMapping FunctionImportName="PersonnelWithBranches" FunctionName="DemirbasDbModel.Store.PersonnelWithBranches">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemirbasDbModel.PersonnelWithBranches_Result">
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+                <ScalarProperty Name="PersonnelFirstName" ColumnName="PersonnelFirstName" />
+                <ScalarProperty Name="PersonnelLastName" ColumnName="PersonnelLastName" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetDocuments" FunctionName="DemirbasDbModel.Store.SP_GetDocuments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemirbasDbModel.SP_GetDocuments_Result">
+                <ScalarProperty Name="InventoryId" ColumnName="InventoryId" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+                <ScalarProperty Name="InventoryBarkod" ColumnName="InventoryBarkod" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+                <ScalarProperty Name="InventoriesTypeName" ColumnName="InventoriesTypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetInventroies" FunctionName="DemirbasDbModel.Store.SP_GetInventroies">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemirbasDbModel.SP_GetInventroies_Result">
+                <ScalarProperty Name="InventoryId" ColumnName="InventoryId" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+                <ScalarProperty Name="InventoryBarkod" ColumnName="InventoryBarkod" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+                <ScalarProperty Name="InventoriesTypeName" ColumnName="InventoriesTypeName" />
+                <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+                <ScalarProperty Name="PersonnelFirstName" ColumnName="PersonnelFirstName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_PersonnelsWithBranch" FunctionName="DemirbasDbModel.Store.SP_PersonnelsWithBranch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemirbasDbModel.SP_PersonnelsWithBranch_Result">
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+                <ScalarProperty Name="PersonnelFirstName" ColumnName="PersonnelFirstName" />
+                <ScalarProperty Name="PersonnelLastName" ColumnName="PersonnelLastName" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetDocument" FunctionName="DemirbasDbModel.Store.SP_GetDocument">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DemirbasDbModel.SP_GetDocument_Result">
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+                <ScalarProperty Name="DocumentsDate" ColumnName="DocumentsDate" />
+                <ScalarProperty Name="DocumentPrice" ColumnName="DocumentPrice" />
+                <ScalarProperty Name="DocumentCompany" ColumnName="DocumentCompany" />
+                <ScalarProperty Name="InventoriesTypeName" ColumnName="InventoriesTypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Branches">
+              <MappingFragment StoreEntitySet="Branches">
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Documents">
+              <MappingFragment StoreEntitySet="Documents">
+                <ScalarProperty Name="DocumentCompany" ColumnName="DocumentCompany" />
+                <ScalarProperty Name="DocumentPrice" ColumnName="DocumentPrice" />
+                <ScalarProperty Name="DocumentsDate" ColumnName="DocumentsDate" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventories">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Inventories">
+              <MappingFragment StoreEntitySet="Inventories">
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="InventoryBarkod" ColumnName="InventoryBarkod" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+                <ScalarProperty Name="InventoryId" ColumnName="InventoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoriesTypes">
+            <EntityTypeMapping TypeName="DemirbasDbModel.InventoriesTypes">
+              <MappingFragment StoreEntitySet="InventoriesTypes">
+                <ScalarProperty Name="InventoriesTypeName" ColumnName="InventoriesTypeName" />
+                <ScalarProperty Name="InventoriesTypeId" ColumnName="InventoriesTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personnels">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Personnels">
+              <MappingFragment StoreEntitySet="Personnels">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="PersonnelLastName" ColumnName="PersonnelLastName" />
+                <ScalarProperty Name="PersonnelFirstName" ColumnName="PersonnelFirstName" />
+                <ScalarProperty Name="PersonnelId" ColumnName="PersonnelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Rooms">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DemirbasDbModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
